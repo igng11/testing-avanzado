@@ -2,6 +2,7 @@ import path from 'path';
 import multer from 'multer';
 import { fileURLToPath } from 'url';
 export const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import bcrypt from "bcrypt";
 //variable que guarda la ruta de src en la variable __dirname
 
 
@@ -19,3 +20,11 @@ const storageFiles = multer.diskStorage({
 
 //mildware del multer
 export const uploader = multer({storage:storageFiles});
+
+export const createHash = (password)=>{
+    return bcrypt.hashSync(password,bcrypt.genSaltSync());
+};
+
+export const isValidPassword = (userDB,password)=>{
+    return bcrypt.compareSync(password,userDB.password);
+}

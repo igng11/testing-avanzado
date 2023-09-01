@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { checkUserAuthenticated, showLoginView } from "../src/midlwares/auth.js";
 import { userService } from "../src/dao/index.js";
+import passport from "passport";
 
 const sessionRouter = Router();
 
@@ -68,6 +69,17 @@ sessionRouter.get("/logout", (req,res)=>{
         res.redirect("/signup");
     })
 });
+
+//authentication github
+sessionRouter.get("/loginGithub", passport.authenticate("githubLoginStrategy"));
+
+sessionRouter.get("/github-callback", passport.authenticate("githubLoginStrategy",{
+    failureRedirect:"/fail-signup"
+}), (req,res)=>{
+    res.redirect("/perfil");
+});
+
+
 
 
 const router = Router();

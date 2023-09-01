@@ -15,6 +15,8 @@ import { Server } from "socket.io";
 import Message from '../src/dao/managers/models/chat.models.js';
 import { cartsRouters } from "../routes/carts.routes.js";
 import { sessionRouter } from "../routes/sessions.routes.js";
+import { initializePassport } from "./config/passportConfig.js"
+import passport from "passport";
 
 
 const port = config.server.port;
@@ -36,6 +38,11 @@ app.use(session({
   saveUninitialized:true
 }));//req.session
 
+//configuracion de passport
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
 //servidor de express (guardar el servidor en una variable para conectarlo al de socket)
 const httpServer = app.listen(port,()=>console.log(`Server ${port}`));
 
@@ -56,7 +63,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use("/products",productsRouter);
 app.use("/fileSystem",routerFS);
 app.use("/carts",cartsRouters);
-app.use("/pages",pagesRouter);
+app.use("/",pagesRouter);
 app.use("/",sessionRouter);
 
 const productService = new ProductManagerMongo();
