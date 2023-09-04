@@ -1,6 +1,6 @@
 import { Router } from "express";
 // import { ProductFS } from "../src/dao/managers/mongo/productsMongo.js";
-import { uploader } from "../src/utils.js";
+import { uploader } from "../utils.js";
 
 // const ProductFS = new ProductFS();
 const products = [];

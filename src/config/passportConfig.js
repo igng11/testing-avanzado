@@ -5,8 +5,9 @@ import { userService } from "../dao/index.js";
 import githubStrategy from "passport-github2";
 import { config } from "./config.js";
 
-
+//estrategias para autenticacion //usamos local
 export const initializePassport = ()=>{
+    //creamos la estrategia, en este caso "signupStrategy"
     passport.use("signupStrategy", new LocalStrategy(
         {
             //username, password
@@ -64,6 +65,7 @@ export const initializePassport = ()=>{
             callbackUrl: config.github.callbackUrl
         },
         async(accesstoken,refreshToken,profile,done)=>{
+            console.log('GitHub strategy called, profile:', profile);
             try {
                 //verificar si ya el usuario esta registrado en nuestra plataforma
                 const user = await userService.getByEmail(profile.username);
@@ -79,6 +81,7 @@ export const initializePassport = ()=>{
                     return done(null,user)
                 }
             } catch (error) {
+                console.log('Error in GitHub strategy:', error);
                 return done(error);
             }
         }

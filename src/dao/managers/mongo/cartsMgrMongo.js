@@ -7,28 +7,25 @@ export class CartsManagerMongo {
   };
 
   //////////////////GPT////////////////////////
-  // Agregar un producto al carrito
-  async addProductToCart(cartId, product, quantity) {
-    try {
-      const cart = await this.model.findById(cartId);
-      if (!cart) {
-        throw new Error("Carrito no encontrado");
-      }
-
-      // Crear un objeto para el producto con la cantidad
-      const productWithQuantity = { product: product._id, quantity };
-
-      // Agregar el objeto al arreglo de productos del carrito
-      cart.products.push(productWithQuantity);
-
-      // Guardar los cambios en el carrito
-      await cart.save();
-
-      return cart;
-    } catch (error) {
-      throw error;
+// Agregar un producto al carrito
+async addProductToCart(cartId, productId) {
+  try {
+    const cart = await this.model.findById(cartId);
+    if (!cart) {
+      throw new Error("Carrito no encontrado");
     }
+
+    // Agregar el ID del producto al array de productos del carrito
+    cart.productsCarts.push(productId);
+
+    // Guardar los cambios en el carrito
+    await cart.save();
+
+    return cart;
+  } catch (error) {
+    throw error;
   }
+}
 ///////////////////GPT///////////////////////
   
   // Obtener todos los carts

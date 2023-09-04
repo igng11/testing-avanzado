@@ -4,17 +4,17 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 // import FileStore from "session-file-store";
 import {config} from "./config/config.js"
-import { productsRouter } from "../routes/home.routes.js";
-import { routerFS } from "../routes/product-fs.routes.js";
+import { productsRouters } from "./routes/product.routes.js"
+import { routerFS } from "./routes/product-fs.routes.js";
 import { connectBD } from "./config/dbConnection.js";
 import { __dirname } from "./utils.js";
 import { engine } from "express-handlebars";
 import { ProductManagerMongo } from "./dao/managers/mongo/productMgrMongo.js";
-import { pagesRouter } from "../routes/pages.routes.js";
+import { pagesRouter } from "./routes/pages.routes.js";
 import { Server } from "socket.io";
 import Message from '../src/dao/managers/models/chat.models.js';
-import { cartsRouters } from "../routes/carts.routes.js";
-import { sessionRouter } from "../routes/sessions.routes.js";
+import { cartsRouters } from "./routes/carts.routes.js";
+import { sessionRouter } from "./routes/sessions.routes.js";
 import { initializePassport } from "./config/passportConfig.js"
 import passport from "passport";
 
@@ -60,7 +60,7 @@ app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'views'));
 
 //routes
-app.use("/products",productsRouter);
+app.use("/products",productsRouters);
 app.use("/fileSystem",routerFS);
 app.use("/carts",cartsRouters);
 app.use("/",pagesRouter);

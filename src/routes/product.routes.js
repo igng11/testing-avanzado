@@ -1,6 +1,6 @@
 import { Router } from "express";
 // import ProductManager from "../dao/productManager.js";
-import { productService, cartService } from "../src/dao/index.js";
+import { productService } from "../dao/index.js"
 
 const validateFields = (req,res,next)=>{
     const productInfo = req.body;
@@ -33,13 +33,13 @@ router.get("/", async (req, res) => {
 // Ruta GET /api/products/:pid
 // Obtiene un producto por su ID
 router.get("/:pid", (req, res) => {
-//   const productId = parseInt(req.params.pid);
-//   const product = productService.getProductById(productId);
-//   if (product) {
-//     res.json({ status: "success", data: product });
-//   } else {
-//     res.json({ status: "error", message: "Producto no encontrado" });
-//   }
+  const productId = parseInt(req.params.pid);
+  const product = productService.getProductById(productId);
+  if (product) {
+    res.json({ status: "success", data: product });
+  } else {
+    res.json({ status: "error", message: "Producto no encontrado" });
+  }
 });
 
 // Ruta PUT /api/products/:pid

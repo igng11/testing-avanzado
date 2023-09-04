@@ -3,7 +3,6 @@ import multer from 'multer';
 import { fileURLToPath } from 'url';
 export const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import bcrypt from "bcrypt";
-//variable que guarda la ruta de src en la variable __dirname
 
 
 //disckstorage => almacenamiento en memoria

@@ -60,4 +60,9 @@ const productsSchema = new mongoose.Schema({
 //aplicacion de paginate al schema
 productsSchema.plugin(mongoosePaginate);
 
+//middleware de populacion
+productsSchema.pre(["find","findOne"],function(next){
+  this.populate("courseStudents");
+});
+
 export const productsModel = mongoose.model(productsCollection,productsSchema);
