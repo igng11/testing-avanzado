@@ -1,12 +1,11 @@
-import { config } from "../config/config.js";
-import ProductManager from "./managers/fileSystem/productsManager.js";
-import {CartsManager} from "./managers/fileSystem/cartsManager.js";
-import {ProductManagerMongo} from "./managers/mongo/productMgrMongo.js"
+import {ProductManagerMongo} from "./managers/mongo/productMgrMongo.js";
 import {CartsManagerMongo} from "./managers/mongo/cartsMgrMongo.js";
 import { UsersMongo } from "./managers/mongo/users.mongo.js";
+import { TicketsMgrMongo } from "./managers/mongo/ticketsMgrMongo.js";
 
-const productService = new ProductManagerMongo();
-const cartService = new CartsManagerMongo();
-const userService = new UsersMongo();
+const ticketsDao = new TicketsMgrMongo();
+const productDao = new ProductManagerMongo();
+const cartDao = new CartsManagerMongo();
+const userDao = new UsersMongo();
 
-export {productService,cartService,userService};
+export {productDao,cartDao,userDao, ticketsDao};

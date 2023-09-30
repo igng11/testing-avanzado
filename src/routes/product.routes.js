@@ -1,6 +1,9 @@
 import { Router } from "express";
+import { ProductsController } from "../controllers/products.controller.js";
+import { checkRole, checkAuthenticated } from "../middlwares/auth.js";
 // import ProductManager from "../dao/productManager.js";
-import { productService } from "../dao/index.js"
+// import { productDao } from "../dao/index.js"
+// import { productsCollection } from "../constants/index.js";
 
 const validateFields = (req,res,next)=>{
     const productInfo = req.body;
@@ -11,57 +14,23 @@ const validateFields = (req,res,next)=>{
     }
 };
 
-
 const router = Router();
 
 // Ruta raíz GET /api/products/
 // Lista todos los productos de la base
-router.get("/", async (req, res) => {
-  try {
-    const limit = req.query.limit;
-    const products = await productService.get();
-    if(limit){
-        //devolver productos de acuerdo al limite
-  } else {
-    res.json({ status: "success", data: products });
-  }
-}catch (error){
-    res.json({status:"error", message:error.message});
-}
-});
+router.get("/", ProductsController.getProducts);
 
 // Ruta GET /api/products/:pid
 // Obtiene un producto por su ID
-router.get("/:pid", (req, res) => {
-  const productId = parseInt(req.params.pid);
-  const product = productService.getProductById(productId);
-  if (product) {
-    res.json({ status: "success", data: product });
-  } else {
-    res.json({ status: "error", message: "Producto no encontrado" });
-  }
-});
+router.get("/:pid", ProductsController.getProductById);
 
 // Ruta PUT /api/products/:pid
 // Actualiza un producto por su ID
-router.post("/", validateFields, async (req, res) => {
-    try {
-        const productInfo = req.body;
-        const productCreated = await productService.save(productInfo);
-          res.json({ status: "success", data: productCreated, 
-          message:"producto creado"});
-    } catch (error){
-        res.json({status:"error", message:error.message});
-    }
-  });
+// router.post("/", validateFields, ProductsController.setProductById);
+router.post("/", checkAuthenticated, checkRole(["admin"]), ProductsController.setProductById);
   
 // Ruta DELETE /api/products/:pid
 // Elimina un producto por su ID
-router.put("/:pid",validateFields, (req, res) => {
-    const productInfo = req.body;
-    //actualiza el producto
-  });
-
-  router.delete("/:pid",validateFields, (req, res) => {});
+  router.delete("/:pid",validateFields, checkAuthenticated, checkRole(["admin"]), ProductsController.deleteProductByID);
 
 export { router as productsRouters }; //aca se exporta la ruta a app.js

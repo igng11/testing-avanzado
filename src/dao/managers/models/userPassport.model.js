@@ -20,9 +20,11 @@ const UserPassportSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Carts'
     },
-    role: {
-        type: String,
-        default: 'user'
+    role:{
+        type:String,
+        required:true,
+        enum:["user", "admin"],
+        default:"user"
     }
 });
 

@@ -27,7 +27,7 @@ export class ProductManagerMongo {
     // Consultar un producto por ID
     getById(id) {
     };
-
+    
     // Guardar productos en el archivo
     async save(product) {
         try {

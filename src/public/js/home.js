@@ -7,22 +7,22 @@ const chat = document.getElementById("messageLogs")
 let user;
 
 
-// Swal.fire({
-//     title: "Identificate",
-//     input: "text",
-//     text: "Ingresa un nombre de usuario para el chat",
-//     inputValidator: (value)=>{
-//         if(!value){
-//             return "El nombre de usuario es obligatorio"
-//         }
-//     },
-//     allowOutsideClick:false
-// //este swal devuelve una promesa
-// }).then((result)=>{
-//     // cuando el cliente se identifica enviamos ese valor al servidor
-//     user = result.value;
-//     socketClient.emit("autenticated",`${user} ha iniciado sesion`)
-// });
+Swal.fire({
+    title: "Identificate",
+    input: "text",
+    text: "Ingresa un nombre de usuario para el chat",
+    inputValidator: (value)=>{
+        if(!value){
+            return "El nombre de usuario es obligatorio"
+        }
+    },
+    allowOutsideClick:false
+//este swal devuelve una promesa
+}).then((result)=>{
+    // cuando el cliente se identifica enviamos ese valor al servidor
+    user = result.value;
+    socketClient.emit("autenticated",`${user} ha iniciado sesion`)
+});
 
 chatbox.addEventListener("keyup", (e)=>{
     if(e.key === "Enter"){

@@ -5,7 +5,7 @@ import MongoStore from "connect-mongo";
 // import FileStore from "session-file-store";
 import {config} from "./config/config.js"
 import { productsRouters } from "./routes/product.routes.js"
-import { routerFS } from "./routes/product-fs.routes.js";
+// import { routerFS } from "./routes/product-fs.routes.js";
 import { connectBD } from "./config/dbConnection.js";
 import { __dirname } from "./utils.js";
 import { engine } from "express-handlebars";
@@ -61,19 +61,19 @@ app.set('views', path.join(__dirname, 'views'));
 
 //routes
 app.use("/products",productsRouters);
-app.use("/fileSystem",routerFS);
+// app.use("/fileSystem",routerFS);
 app.use("/carts",cartsRouters);
 app.use("/",pagesRouter);
 app.use("/",sessionRouter);
 
-const productService = new ProductManagerMongo();
+const productDao = new ProductManagerMongo();
 
 // Definir las rutas
 //ruta para renderizar productos
 app.get("/home", async (req, res) => {
   try {
   //traer la hoja de estilos
-  const products = await productService.get();
+  const products = await productDao.get();
   // console.log(products);
   // Renderizar la vista "home.hbs" con los productos como datos
   res.render("home", {products: products, user: req.session.userInfo});}
@@ -86,7 +86,7 @@ res.render("error");
 app.get("/get", async (req, res) => {
   try {
   //traer productos
-  const products = await productService.get();
+  const products = await productDao.get();
   // Renderizar la vista "home.hbs" con los productos como datos
   res.json(products);}
 catch (error) {

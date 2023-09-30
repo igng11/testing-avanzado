@@ -1,7 +1,12 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 export const config = {
     server:{
         port:8082,
         secretSesion: "FrestPass"
+        // port:process.env.PORT,
+        // secretSession:process.env.SECRET_SESSION
     },
     fileSystem:{
         productFile:"product.json",
@@ -9,6 +14,7 @@ export const config = {
     },
     mongo:{
         url:"mongodb+srv://igng44:8PjX1dcqFKZCUUqq@cluster0.13qf6cu.mongodb.net/products?retryWrites=true&w=majority",
+        // url:process.env.MONGO_URL
         sessions:"mongodb+srv://igng44:8PjX1dcqFKZCUUqq@cluster0.13qf6cu.mongodb.net/sessions?retryWrites=true&w=majority"
     },
     github:{
@@ -17,3 +23,6 @@ export const config = {
         callbackUrl:"http://localhost:8082/github-callback"
     }
 }
+
+
+

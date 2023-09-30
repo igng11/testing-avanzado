@@ -1,0 +1,22 @@
+<h1>Formulario de login</h1>
+<p>{{message}}</p>
+<p style="color:red">{{error}}</p>
+
+<form method="post" action="profile">
+    <input type="email" placeholder="correo" name="email"/>
+    <br/><br/>
+    <input type="password" placeholder="contraseña" name="password"/>
+    <br/><br/>
+    <button>Loguearse</button>
+</form>
+<hr>
+<a href="/cambio-password">
+    Restaurar contraseña
+</a>
+
+<hr>
+<a href="/loginGithub">
+    <button>
+        Iniciar sesión con github
+    </button>
+</a>
