@@ -5,28 +5,28 @@ import { SessionsController } from "../controllers/sessions.controller.js";
 // import { userDao } from "../dao/index.js";
 // import { createHash, isValidPassword } from "../utils.js";
 
-const sessionRouter = Router();
+const router = Router();
 
-sessionRouter.get("/views", SessionsController.viewSessions);
+router.get("/views", SessionsController.viewSessions);
 
-sessionRouter.post("/signup", SessionsController.signupSession);
+router.post("/signup", SessionsController.signupSession);
 
-sessionRouter.post("/profile", SessionsController.profileSessions);
+router.post("/profile", SessionsController.profileSessions);
 
-sessionRouter.get("/logout", SessionsController.profileSessions);
+router.get("/logout", SessionsController.profileSessions);
 
 //authentication github
-sessionRouter.get("/loginGithub", passport.authenticate("githubLoginStrategy"));
+router.get("/loginGithub", passport.authenticate("githubLoginStrategy"));
 
-sessionRouter.get("/github-callback", passport.authenticate("githubLoginStrategy",{
+router.get("/github-callback", passport.authenticate("githubLoginStrategy",{
     failureRedirect:"/fail-signup"
 }), SessionsController.loginGitSessions);
 
 
-sessionRouter.get("/registro",showLoginView, SessionsController.registroSessions);
+router.get("/registro",showLoginView, SessionsController.registroSessions);
 
-sessionRouter.get("/login", showLoginView, SessionsController.loginSessions);
+router.get("/login", showLoginView, SessionsController.loginSessions);
 
-sessionRouter.get("/perfil", checkUserAuthenticated, SessionsController.perfilSessions);
+router.get("/perfil", checkUserAuthenticated, SessionsController.perfilSessions);
 
-export {sessionRouter};
+export {router as sessionRouter};

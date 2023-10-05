@@ -14,10 +14,12 @@ import { pagesRouter } from "./routes/pages.routes.js";
 import { Server } from "socket.io";
 import Message from '../src/dao/managers/models/chat.models.js';
 import { cartsRouters } from "./routes/carts.routes.js";
+import { homeRouters } from "./routes/home.routes.js";
 import { sessionRouter } from "./routes/sessions.routes.js";
+import { usersRouter } from "./routes/users.routes.js";
 import { initializePassport } from "./config/passportConfig.js"
 import passport from "passport";
-
+import { generateUser } from "./utils/helpers.js";
 
 const port = config.server.port;
 const app = express();
@@ -60,16 +62,29 @@ app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'views'));
 
 //routes
+app.use("/home",homeRouters);
 app.use("/products",productsRouters);
 // app.use("/fileSystem",routerFS);
 app.use("/carts",cartsRouters);
+app.use("/users", usersRouter);
 app.use("/",pagesRouter);
 app.use("/",sessionRouter);
+
+//traer productos faker
+app.get("/api/mockingpoducts", (req,res)=>{
+  const cant = parseInt(req.query.cant) || 100;
+  let users = [];
+  for(let i=0;i<cant;i++){
+      const user = generateUser();
+      users.push(user);
+  }
+  res.json({status:"success", data:users});
+});
 
 const productDao = new ProductManagerMongo();
 
 // Definir las rutas
-//ruta para renderizar productos
+// ruta para renderizar productos
 app.get("/home", async (req, res) => {
   try {
   //traer la hoja de estilos

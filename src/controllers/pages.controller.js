@@ -1,4 +1,7 @@
+import { productDao } from "../dao/index.js";
+
 export class PagesController{
+
     static renderShop = async (req, res) => {
         try {
             const {limit=10,page=1,num,sort="asc"} = req.query;
@@ -20,7 +23,7 @@ export class PagesController{
                 sort:{num:sortValue},
                 lean: true
             });
-            // console.log(result);
+            console.log(result);
             //      http//localhost:8080
             const baseUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`
               // Construir el objeto de respuesta
@@ -54,5 +57,8 @@ export class PagesController{
     
     static renderContact = (req, res) => {
         res.render("contact");
+    }
+    static renderHome = (req, res) => {
+        res.render("home");
     }
     }

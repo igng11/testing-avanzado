@@ -1,3 +1,5 @@
+import { productDao } from "../dao/index.js";
+
 export class HomeController{
     static getHomeProducts = async(req,res)=>{
         try{
