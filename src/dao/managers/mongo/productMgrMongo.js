@@ -8,7 +8,7 @@ export class ProductManagerMongo {
     async get() {
     try {
         const products = await this.model.find().lean(); //lean convierte el bison a json
-        // console.log(products);
+        console.log(products);
         return products;
     } catch (error) {
         throw error;

@@ -17,10 +17,10 @@ export class SessionsController {
     static signupSession = async(req,res)=>{
         try {
             const signupForm = req.body;
-            console.log("Received POST request:", signupForm);
+            // console.log("Received POST request:", signupForm);
             //verificar si el usuario ya se registro
             const user = await userDao.getByEmail(signupForm.email);
-            console.log(user);
+            // console.log(user);
             if(user){
                 return res.render("signup",{error:"el usuario ya esta registrado"});
             }
@@ -30,9 +30,9 @@ export class SessionsController {
                 password: createHash(signupForm.password)
             }
             const result = await userDao.save(newUser);
-            res.render("signup",{message:"usuario registrado"});
+            res.render("login",{message:"usuario registrado"});
         } catch (error) {
-            res.render("sessions",{error:error.message});
+            res.render("signup",{error:error.message});
         }
     }
 
@@ -43,12 +43,12 @@ export class SessionsController {
             //verificar si el usuario ya se registro
             const user = await userDao.getByEmail(loginForm.email);
             if(!user){
-                return res.render("signup",{error:"El usuario no se ha registrado"});
+                return res.render("sessions",{error:"El usuario no se ha registrado"});
             }
             //si el usuario existe, validar la contraseña
             if(isValidPassword(user,loginForm.password)){
                 //si la contraseña es valida, creamos la session
-                req.session.user = {
+                req.session.userInfo = {
                     first_name:user.first_name,
                     email:user.email
                 };
@@ -69,12 +69,12 @@ export class SessionsController {
     }
 
     static loginGitSessions = (req,res)=>{
-        console.log('GitHub authentication successful, redirecting to /perfil');
+        console.log('GitHub authentication successful, redirecting to /profile');
         req.session.userInfo = {
             first_name: req.user.first_name,
             email: req.user.email
         };
-        res.redirect("/perfil");
+        res.redirect("/profile");
     }
 
     static registroSessions = (req,res)=>{

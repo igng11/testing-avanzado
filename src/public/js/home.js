@@ -6,32 +6,32 @@ const chat = document.getElementById("messageLogs")
 
 let user;
 
+//CHAT
+// Swal.fire({
+//     title: "Identificate",
+//     input: "text",
+//     text: "Ingresa un nombre de usuario para el chat",
+//     inputValidator: (value)=>{
+//         if(!value){
+//             return "El nombre de usuario es obligatorio"
+//         }
+//     },
+//     allowOutsideClick:false
+// //este swal devuelve una promesa
+// }).then((result)=>{
+//     // cuando el cliente se identifica enviamos ese valor al servidor
+//     user = result.value;
+//     socketClient.emit("autenticated",`${user} ha iniciado sesion`)
+// });
 
-Swal.fire({
-    title: "Identificate",
-    input: "text",
-    text: "Ingresa un nombre de usuario para el chat",
-    inputValidator: (value)=>{
-        if(!value){
-            return "El nombre de usuario es obligatorio"
-        }
-    },
-    allowOutsideClick:false
-//este swal devuelve una promesa
-}).then((result)=>{
-    // cuando el cliente se identifica enviamos ese valor al servidor
-    user = result.value;
-    socketClient.emit("autenticated",`${user} ha iniciado sesion`)
-});
-
-chatbox.addEventListener("keyup", (e)=>{
-    if(e.key === "Enter"){
-        if(chatbox.value.trim().length>0){//corroboramos que el usuario no envie datos vacios
-        socketClient.emit("message",{user:user, message:chatbox.value});
-        chatbox.value=""; //borramos el campo
-        }
-    }
-})
+// chatbox.addEventListener("keyup", (e)=>{
+//     if(e.key === "Enter"){
+//         if(chatbox.value.trim().length>0){//corroboramos que el usuario no envie datos vacios
+//         socketClient.emit("message",{user:user, message:chatbox.value});
+//         chatbox.value=""; //borramos el campo
+//         }
+//     }
+// });
 
 socketClient.on("messageHistory",(dataServer)=>{
     let messageElmts="";

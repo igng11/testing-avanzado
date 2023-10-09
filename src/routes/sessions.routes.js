@@ -27,6 +27,6 @@ router.get("/registro",showLoginView, SessionsController.registroSessions);
 
 router.get("/login", showLoginView, SessionsController.loginSessions);
 
-router.get("/perfil", checkUserAuthenticated, SessionsController.perfilSessions);
+router.get("/profile", checkUserAuthenticated, SessionsController.perfilSessions);
 
 export {router as sessionRouter};

@@ -1,19 +1,24 @@
 import { productDao } from "../dao/index.js";
 
 export class ProductsController{
+
     static getProducts = async (req, res) => {
-        try {
-          const limit = req.query.limit;
-          const products = await productDao.get();
-          if(limit){
-              //devolver productos de acuerdo al limite
+      try {
+        const limit = req.query.limit;
+        const products = await productDao.get();
+  
+        if (limit) {
+          const limitedProducts = products.slice(0, parseInt(limit));
+          res.json({ status: "success", data: limitedProducts });
         } else {
           res.json({ status: "success", data: products });
         }
-      }catch (error){
-          res.json({status:"error", message:error.message});
+      } catch (error) {
+        res.json({ status: "error", message: error.message });
       }
-      };
+    };
+
+
 
     static getProductById = (req, res) => {
         const productId = parseInt(req.params.pid);

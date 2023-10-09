@@ -2,14 +2,14 @@ import express from "express";
 import path from "path";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-// import FileStore from "session-file-store";
+import passport from "passport";
 import {config} from "./config/config.js"
 import { productsRouters } from "./routes/product.routes.js"
-// import { routerFS } from "./routes/product-fs.routes.js";
 import { connectBD } from "./config/dbConnection.js";
 import { __dirname } from "./utils.js";
 import { engine } from "express-handlebars";
 import { ProductManagerMongo } from "./dao/managers/mongo/productMgrMongo.js";
+import { productDao } from "./dao/index.js";
 import { pagesRouter } from "./routes/pages.routes.js";
 import { Server } from "socket.io";
 import Message from '../src/dao/managers/models/chat.models.js';
@@ -18,8 +18,9 @@ import { homeRouters } from "./routes/home.routes.js";
 import { sessionRouter } from "./routes/sessions.routes.js";
 import { usersRouter } from "./routes/users.routes.js";
 import { initializePassport } from "./config/passportConfig.js"
-import passport from "passport";
 import { generateUser } from "./utils/helpers.js";
+// import { routerFS } from "./routes/product-fs.routes.js";
+// import FileStore from "session-file-store";
 
 const port = config.server.port;
 const app = express();
@@ -62,16 +63,16 @@ app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'views'));
 
 //routes
-app.use("/home",homeRouters);
+// app.use("/home",homeRouters);
 app.use("/products",productsRouters);
-// app.use("/fileSystem",routerFS);
 app.use("/carts",cartsRouters);
 app.use("/users", usersRouter);
 app.use("/",pagesRouter);
 app.use("/",sessionRouter);
+// app.use("/fileSystem",routerFS);
 
 //traer productos faker
-app.get("/api/mockingpoducts", (req,res)=>{
+app.get("/mockingpoducts", (req,res)=>{
   const cant = parseInt(req.query.cant) || 100;
   let users = [];
   for(let i=0;i<cant;i++){
@@ -81,15 +82,15 @@ app.get("/api/mockingpoducts", (req,res)=>{
   res.json({status:"success", data:users});
 });
 
-const productDao = new ProductManagerMongo();
+const productService = new ProductManagerMongo();
 
 // Definir las rutas
 // ruta para renderizar productos
 app.get("/home", async (req, res) => {
   try {
   //traer la hoja de estilos
-  const products = await productDao.get();
-  // console.log(products);
+  const products = await productService.get();
+  console.log(products);
   // Renderizar la vista "home.hbs" con los productos como datos
   res.render("home", {products: products, user: req.session.userInfo});}
 catch (error) {
@@ -101,10 +102,13 @@ res.render("error");
 app.get("/get", async (req, res) => {
   try {
   //traer productos
+  console.log("solicitando...")
   const products = await productDao.get();
+  console.log("solicitando...2")
   // Renderizar la vista "home.hbs" con los productos como datos
   res.json(products);}
 catch (error) {
+  console.log("error ", error);
 res.render("error al obtener products");
 }});
 

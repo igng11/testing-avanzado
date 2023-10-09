@@ -45,7 +45,7 @@ export class TicketsController{
     }
 }
 
-                //else, agregamos el producto a purchaseProducts, y adicional actualizamos el producto product.stock - quantity
+        //else, agregamos el producto a purchaseProducts, y adicional actualizamos el producto product.stock - quantity
             }
             const newTicket = {
                 code,

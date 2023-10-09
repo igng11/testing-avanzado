@@ -3,7 +3,8 @@ dotenv.config();
 
 export const config = {
     server:{
-        port:8082,
+        port:8083
+,
         secretSesion: "FrestPass"
         // port:process.env.PORT,
         // secretSession:process.env.SECRET_SESSION
