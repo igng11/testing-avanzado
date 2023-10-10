@@ -35,7 +35,7 @@ let user;
 
 socketClient.on("messageHistory",(dataServer)=>{
     let messageElmts="";
-    // console.log("dataServer", dataServer);
+    // console.debug("dataServer", dataServer);
     dataServer.forEach(item => {
         messageElmts = messageElmts + `${item.user}: ${item.message}<br/>`
     });

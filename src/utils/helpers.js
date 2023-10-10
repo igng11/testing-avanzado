@@ -21,7 +21,7 @@ const generateProduct = ()=>{
         img_1:image.url(),
     }
 };
-// console.log(generateProduct());
+// console.debug(generateProduct());
 
 //generar usuarios
 export const generateUser = ()=>{
@@ -32,7 +32,7 @@ export const generateUser = ()=>{
         const newProduct = generateProduct();
         products.push(newProduct);
     };
-    // console.log("numberOfProducts: ", numberOfProducts);
+    // console.debug("numberOfProducts: ", numberOfProducts);
     return {
         id:database.mongodbObjectId(),
         first_name:person.firstName(),
@@ -41,4 +41,4 @@ export const generateUser = ()=>{
         cart:products
     };
 };
-// console.log(generateUser()); 
+// console.debug(generateUser()); 

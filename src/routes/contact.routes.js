@@ -16,9 +16,9 @@ router.get("/", async(req,res)=>{
 router.post("/", async(req,res)=>{
     try {
         const dataForm = req.body;
-        console.log("dataForm",dataForm);
+        console.debug("dataForm",dataForm);
         const dtoInfo = new ContactDto(dataForm);
-        console.log("dtoInfo",dtoInfo);
+        console.debug("dtoInfo",dtoInfo);
         const contactCreated = await contactsDao.create(dtoInfo);
         res.json({status:"success", data:contactCreated});
     } catch (error) {

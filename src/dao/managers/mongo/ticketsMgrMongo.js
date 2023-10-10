@@ -10,7 +10,7 @@ export class TicketsMgrMongo{
             const result = await this.model.create(ticketInfo);
             return result;
         } catch (error) {
-            console.log(error);
+            console.error(error);
             throw error;
         }
     };

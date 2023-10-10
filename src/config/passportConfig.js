@@ -70,7 +70,7 @@ export const initializePassport = ()=>{
             callbackUrl: config.github.callbackUrl
         },
         async(accesstoken,refreshToken,profile,done)=>{
-            console.log('GitHub strategy called, profile:', profile);
+            console.info('GitHub strategy called, profile:', profile);
             try {
                 //verificar si ya el usuario esta registrado en nuestra plataforma
                 const user = await userDao.getByEmail(profile.username);
@@ -86,7 +86,7 @@ export const initializePassport = ()=>{
                     return done(null,user)
                 }
             } catch (error) {
-                console.log('Error in GitHub strategy:', error);
+                console.error('Error in GitHub strategy:', error);
                 return done(error);
             }
         }

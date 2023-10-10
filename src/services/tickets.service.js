@@ -15,7 +15,7 @@ export class ProductsService {
             // Puedes agregar una verificación adicional aquí para manejar casos de error
             // si la actualización no tiene éxito.
 
-            console.log(`Stock actualizado para el producto con ID ${productId} a ${newStock}`);
+            console.info(`Stock actualizado para el producto con ID ${productId} a ${newStock}`);
 
             // Devuelve true para indicar que la actualización tuvo éxito
             return true;

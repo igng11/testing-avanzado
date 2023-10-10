@@ -12,7 +12,7 @@ export class ProductMongo{
             const products = await this.model.find().lean();
             return products;
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
             throw new Error("Hubo un error al obtener los productos");
         }
     }
@@ -22,7 +22,7 @@ export class ProductMongo{
             const productCreated = await this.model.create(productInfo);
             return productCreated;
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
             throw new Error("Hubo un error al crear el producto");
         }
     }
@@ -34,7 +34,7 @@ export class ProductMongo{
             const product = await this.model.findById(id);
             return product;
         }catch(error){
-            console.log(error.message);
+            console.error(error.message);
             // throw error
             throw new Error("Hubo un error al obtener el producto");
         }
@@ -47,10 +47,10 @@ export class ProductMongo{
             throw new Error("Producto no encontrado");
           }
           const productDeleted = await this.model.deleteOne({ _id: productId });
-          console.log(`Se ha eliminado el producto ${productId}`);
+          console.info(`Se ha eliminado el producto ${productId}`);
           return productToDelete;
         } catch (error) {
-          console.log(error.message);
+          console.error(error.message);
           throw new Error("Hubo un error al eliminar el producto");
         }
       }
@@ -59,10 +59,10 @@ export class ProductMongo{
       async deleteAll() {
         try {
           const deletedProducts = await this.model.deleteMany({});
-          console.log(`Se han eliminado ${deletedProducts.deletedCount} productos`);
+          console.info(`Se han eliminado ${deletedProducts.deletedCount} productos`);
           return deletedProducts;
         } catch (error) {
-          console.log(error.message);
+          console.error(error.message);
           throw new Error("Hubo un error al eliminar todos los productos");
         }
       }

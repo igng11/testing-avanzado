@@ -13,7 +13,7 @@ class ProductManager {
       try {
         this.products = await this.get();
         this.lastId = this.getLastId();
-        // console.log(this.path);
+        // console.debug(this.path);
       } catch (error) {
         console.error("Error al cargar los productos:", error);
       }
@@ -33,7 +33,7 @@ async get() {
   try {
     if (this.fileExists()) {
       const content = await fs.promises.readFile(this.path, "utf-8");
-      // console.log("Contenido del archivo:", content);
+      // console.debug("Contenido del archivo:", content);
       const products = JSON.parse(content);
       return products;
     } else {

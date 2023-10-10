@@ -4,7 +4,7 @@ export class CustomError{
         const error = new Error(message,{cause});
         error.name=name;
         error.code=errorCode;
-        console.log("error generado: ", error.cause);
+        console.error("error generado: ", error.cause);
         // {
         //     name:,
         //     cause,

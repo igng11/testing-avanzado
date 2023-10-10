@@ -1,17 +1,17 @@
 export const checkUserAuthenticated = (req,res,next)=>{
-    console.log('Checking if user is authenticated');
-    console.log(req.session);
+    console.debug('Checking if user is authenticated');
+    console.debug(req.session);
     if(req.session?.userInfo){
-        console.log('User is authenticated, calling next()');
+        console.debug('User is authenticated, calling next()');
         next();
     } else {
-        console.log('User is not authenticated, redirecting to /signup');
+        console.debug('User is not authenticated, redirecting to /signup');
         res.redirect("/signup");
     }
 };
 
 export const showLoginView = (req,res,next)=>{
-    console.log(req.session);
+    console.debug(req.session);
     if(req.session?.userInfo){
         res.redirect("/profile");
     } else {
@@ -22,7 +22,7 @@ export const showLoginView = (req,res,next)=>{
 export const checkRole = (roles)=>{ 
     roles = ["admin", "superadmin"]
     return (req,res,next)=>{
-        console.log("req", req.user);
+        console.debug("req", req.user);
         if(roles.includes(req.user.role)){
             next();
         } else {

@@ -19,6 +19,7 @@ import { sessionRouter } from "./routes/sessions.routes.js";
 import { usersRouter } from "./routes/users.routes.js";
 import { initializePassport } from "./config/passportConfig.js"
 import { generateUser } from "./utils/helpers.js";
+import { addLogger } from "./helpers/logger.js";
 // import { routerFS } from "./routes/product-fs.routes.js";
 // import FileStore from "session-file-store";
 
@@ -47,7 +48,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //servidor de express (guardar el servidor en una variable para conectarlo al de socket)
-const httpServer = app.listen(port,()=>console.log(`Server ${port}`));
+const httpServer = app.listen(port,()=>console.info(`Server ${port}`));
 
 //crear el servidor de websocket (lado del servidor)
 const io = new Server(httpServer);
@@ -82,15 +83,26 @@ app.get("/mockingpoducts", (req,res)=>{
   res.json({status:"success", data:users});
 });
 
-const productService = new ProductManagerMongo();
+const logger = addLogger();
+app.get("/loggerTest",(req,res)=>{
+  // console.info("peticion get recibida");
+  logger.silly("mensaje de nivel silly");
+  logger.info("mensaje de nivel info");
+  logger.debug("mensaje con nivel debug");
+  logger.http("mensaje de nivel http");
+  logger.error("mensaje de nivel error");
+  logger.warn("mensaje de nivel warn");
+  logger.verbose("mensaje de nivel verbose");
+  res.send("peticion recibida");
+});
 
 // Definir las rutas
 // ruta para renderizar productos
 app.get("/home", async (req, res) => {
   try {
   //traer la hoja de estilos
-  const products = await productService.get();
-  console.log(products);
+  const products = await productDao.get();
+  console.debug(products);
   // Renderizar la vista "home.hbs" con los productos como datos
   res.render("home", {products: products, user: req.session.userInfo});}
 catch (error) {
@@ -102,13 +114,13 @@ res.render("error");
 app.get("/get", async (req, res) => {
   try {
   //traer productos
-  console.log("solicitando...")
+  console.debug("solicitando...")
   const products = await productDao.get();
-  console.log("solicitando...2")
+  console.debug("solicitando...2")
   // Renderizar la vista "home.hbs" con los productos como datos
   res.json(products);}
 catch (error) {
-  console.log("error ", error);
+  console.debug("error ", error);
 res.render("error al obtener products");
 }});
 
@@ -121,7 +133,7 @@ app.use(express.urlencoded({extended:true}));
 //sockets
 let messages = [];
 io.on("connection",(socket)=>{
-  console.log("nuevo cliente conectado");
+  console.info("nuevo cliente conectado");
   
   //capturamos el ingreso de un nuevo usuario
   socket.on("autenticated",(msg)=>{
@@ -131,7 +143,7 @@ io.on("connection",(socket)=>{
   });
 
   socket.on("message",(data)=>{
-      console.log("data", data);
+      console.debug("data", data);
       messages.push(data);
 
       // Insertar el mensaje en la base de datos
@@ -144,7 +156,7 @@ io.on("connection",(socket)=>{
 
       newMessage.save()
         .then(() => {
-          console.log('Mensaje guardado en la base de datos');
+          console.info('Mensaje guardado en la base de datos');
         })
         .catch(error => {
           console.error('Error al guardar el mensaje en la base de datos:', error);

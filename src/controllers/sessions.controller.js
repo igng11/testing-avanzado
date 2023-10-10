@@ -4,11 +4,11 @@ import { isValidPassword } from "../utils.js";
 
 export class SessionsController {
     static viewSessions = (req,res)=>{
-        console.log(req.session)
+        console.debug(req.session)
         if(req.session?.user?.username){
             req.session.user.visitas++;
             res.send(`Ya estas logueado ${req.session.user.username} y visitaste esta pagina ${req.session.user.visitas} veces.`);
-            console.log(req.session);
+            console.debug(req.session);
         } else {
             res.send("necesitas estar logueado")
         }
@@ -17,10 +17,10 @@ export class SessionsController {
     static signupSession = async(req,res)=>{
         try {
             const signupForm = req.body;
-            // console.log("Received POST request:", signupForm);
+            // console.info("Received POST request:", signupForm);
             //verificar si el usuario ya se registro
             const user = await userDao.getByEmail(signupForm.email);
-            // console.log(user);
+            // console.debug(user);
             if(user){
                 return res.render("signup",{error:"el usuario ya esta registrado"});
             }
@@ -39,7 +39,7 @@ export class SessionsController {
     static profileSessions = async(req,res)=>{
         try {
             const loginForm = req.body;
-            console.log(loginForm);
+            console.debug(loginForm);
             //verificar si el usuario ya se registro
             const user = await userDao.getByEmail(loginForm.email);
             if(!user){
@@ -69,7 +69,7 @@ export class SessionsController {
     }
 
     static loginGitSessions = (req,res)=>{
-        console.log('GitHub authentication successful, redirecting to /profile');
+        console.debug('GitHub authentication successful, redirecting to /profile');
         req.session.userInfo = {
             first_name: req.user.first_name,
             email: req.user.email
@@ -86,7 +86,7 @@ export class SessionsController {
     }
 
     static perfilSessions = (req,res)=>{
-        console.log(req.session);
+        console.debug(req.session);
         res.render("profile",{user: req.session.userInfo});
     }
 }

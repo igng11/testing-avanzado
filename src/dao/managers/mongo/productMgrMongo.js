@@ -8,7 +8,7 @@ export class ProductManagerMongo {
     async get() {
     try {
         const products = await this.model.find().lean(); //lean convierte el bison a json
-        console.log(products);
+        console.debug(products);
         return products;
     } catch (error) {
         throw error;
@@ -17,7 +17,7 @@ export class ProductManagerMongo {
     async getWithPaginate(query, options){
         try {
             const result = await this.model.paginate(query, options);
-            console.log("result: ",result);
+            console.debug("result: ",result);
             return result;
         } catch (error) {
             throw error;

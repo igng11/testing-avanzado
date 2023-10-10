@@ -5,7 +5,7 @@ export class PagesController{
     static renderShop = async (req, res) => {
         try {
             const {limit=10,page=1,num,sort="asc"} = req.query;
-            // console.log(limit, page,num,sort);
+            // console.debug(limit, page,num,sort);
             const numValue = num === 0 ? undefined : parseInt(num);
             if(!["asc","desc"].includes(sort)){
                 return res.render("shop",{error:"Orden no valido"})
@@ -23,7 +23,7 @@ export class PagesController{
                 sort:{num:sortValue},
                 lean: true
             });
-            console.log(result);
+            console.debug(result);
             //      http//localhost:8080
             const baseUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`
               // Construir el objeto de respuesta
@@ -39,7 +39,7 @@ export class PagesController{
                 prevLink: result.hasPrevPage ? `${baseUrl.replace(`page=${result.page}`, `page=${result.prevPage}`)}` : null,
                 nextLink: result.hasNextPage ? `${baseUrl.replace(`page=${result.page}`, `page=${result.nextPage}`)}` : null,
               };
-            //   console.log(resultProductViews);
+            //   console.debug(resultProductViews);
               res.render("shop",resultProductViews);
                 // res.render("shop",{products: result});
         } catch (error) {

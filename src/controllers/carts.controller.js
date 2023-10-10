@@ -21,12 +21,12 @@ export class CartController{
         const productId = req.params.pid;
       
         try {
-          console.log(`Adding product ${productId} to cart ${cartId}`); // Log the operation
+          console.info(`Adding product ${productId} to cart ${cartId}`); // Log the operation
       
           // Busca el carrito por ID
           const cart = await cartsModel.findById(cartId);
           if (!cart) {
-            console.log(`Cart ${cartId} not found`); // Log if the cart is not found
+            console.info(`Cart ${cartId} not found`); // Log if the cart is not found
             return res.status(404).json({ message: 'Carrito no encontrado' });
           }
       
@@ -35,7 +35,7 @@ export class CartController{
       
           // Guarda el carrito actualizado
           const updatedCart = await cart.save();
-          console.log(`Saved updated cart: ${JSON.stringify(updatedCart)}`); // Log the updated cart
+          console.info(`Saved updated cart: ${JSON.stringify(updatedCart)}`); // Log the updated cart
       
           // Verifica que todos los IDs de los productos corresponden a productos existentes
           const productsExist = await Promise.all(updatedCart.productsCarts.map(async (productId) => {
@@ -43,13 +43,13 @@ export class CartController{
             return !!product;
           }));
           if (productsExist.some(exists => !exists)) {
-            console.log('One or more product IDs do not correspond to existing products');
+            console.info('One or more product IDs do not correspond to existing products');
             return res.status(400).json({ message: 'One or more product IDs do not correspond to existing products' });
           }
       
           // Devuelve el carrito actualizado con los productos poblados
           const populatedCart = await cartsModel.findById(updatedCart._id).populate('productsCarts');
-          console.log(`Returning populated cart: ${JSON.stringify(populatedCart)}`); // Log the populated cart
+          console.info(`Returning populated cart: ${JSON.stringify(populatedCart)}`); // Log the populated cart
           res.json(populatedCart);
         } catch (error) {
           console.error(`Error: ${error.message}`); // Log the error
