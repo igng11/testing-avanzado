@@ -1,8 +1,16 @@
 <h1>Pagina de Perfil</h1>
 <p>{{error}}</p>
+{{#if message}}
+    <p>{{message}}</p>
+{{/if}}
 Bienvenido {{user.first_name}}
 <br/>
 Correo: {{user.email}}
+<br>
+
+<a href="forgot-password">
+    Resteblecer contraseña
+</a>
 <br>
 <a href="logout">
     Cerrar sesion

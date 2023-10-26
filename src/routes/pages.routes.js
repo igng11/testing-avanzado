@@ -14,5 +14,8 @@ router.get("/about", PagesController.renderAbout);
 
 router.get("/contact", PagesController.renderContact);
 
+router.get("/forgot-password", PagesController.renderForgotPassword);
+
+router.get("/reset-password", PagesController.renderResetPassword);
 
 export {router as pagesRouter}

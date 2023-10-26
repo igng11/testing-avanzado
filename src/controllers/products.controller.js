@@ -18,7 +18,17 @@ export class ProductsController{
       }
     };
 
-
+    static createProduct = async(req,res)=>{
+      //Agregar el producto
+      try {
+          const productInfo = req.body;
+          productInfo.owner = req.user._id;
+          const productCreated = await productDao.createProduct(productInfo);
+          res.json({status:"success", data:productCreated, message:"producto creado"});
+      } catch (error) {
+          res.json({status:"error", message:error.message});
+      }
+  };
 
     static getProductById = (req, res) => {
         const productId = parseInt(req.params.pid);
@@ -41,26 +51,21 @@ export class ProductsController{
         }
       }
 
-    static deleteProductByID = async (req, res) => {
+      static deleteProduct = async(req,res)=>{
         try {
-            const productId = parseInt(req.params.pid);
-    
-            // Verifica si el producto existe antes de intentar eliminarlo
-            const product = productDao.getProductById(productId);
-            if (!product) {
-                res.json({ status: "error", message: "Producto no encontrado" });
-                return;
-            }
-    
-            // Llama al servicio para eliminar el producto por su ID
-            const deletedProduct = await productDao.deleteProductById(productId);
-    
-            if (deletedProduct) {
-                res.json({ status: "success", message: "Producto eliminado exitosamente" });
+            const productId = req.params.pid;
+            const product = await productDao.getProduct(productId);
+            //validar que el usuario que esta intentando borrar el producto
+            //Si es premium y es el creador del producto
+            //Si es usuario administrador
+            if((req.user.role === "premium" && product.owner.toString() === req.user._id.toString()) || req.user.role === "admin"){
+                await productDao.deleteProduct(productId);
+                return res.json({status:"success", message:"producto eliminado"});
             } else {
-                res.json({ status: "error", message: "No se pudo eliminar el producto" });
+                return res.json({status:"error", message:"no tienes permisos"});
             }
         } catch (error) {
-            res.json({ status: "error", message: error.message });
-        }}
+            res.json({status:"error", message:error.message});
+        }
+    };
     };

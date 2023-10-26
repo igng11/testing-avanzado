@@ -61,4 +61,11 @@ export class PagesController{
     static renderHome = (req, res) => {
         res.render("home");
     }
+    static renderForgotPassword = (req, res) => {
+        res.render("forgotPassword");
+    }
+    static renderResetPassword = (req,res)=>{
+        const token = req.query.token;
+        res.render("resetPassword",{token});
+    };
     }

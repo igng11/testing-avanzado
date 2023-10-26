@@ -3,6 +3,8 @@ import { CustomError } from "../services/error/customError.service.js";//estruct
 import { EError } from "../enums/EErrors.js";
 import { createUserErrorMsg } from "../services/error/createUserError.service.js"; //msg error personalizado
 import { invalidParamMsg } from "../services/error/invalidParamUser.service.js";
+import { checkRole } from "../middlwares/auth.js";
+import { UsersController } from "../controllers/users.controller.js";
 
 const router = Router();
 
@@ -42,5 +44,9 @@ router.get("/:uid", (req,res)=>{
     }
     res.json({status:"success", message:"usuario encontrado"});
 });
+
+//cambiar rol de usuarios
+router.post("/premium/:uid", checkRole(["admin"]), UsersController.modifyRole);
+
 
 export {router as usersRouter};

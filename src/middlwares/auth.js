@@ -1,25 +1,25 @@
 export const checkUserAuthenticated = (req,res,next)=>{
-    console.debug('Checking if user is authenticated');
-    console.debug(req.session);
+    console.debug('Chequeando si el usuario esta auth..');
+    // console.debug(req.session);
     if(req.session?.userInfo){
-        console.debug('User is authenticated, calling next()');
+        console.debug('Usuario autenticado...');
         next();
     } else {
-        console.debug('User is not authenticated, redirecting to /signup');
-        res.redirect("/signup");
+        console.debug('Usuario no autenticado, redirigiendo a Login');
+        res.redirect("/login");
     }
 };
 
 export const showLoginView = (req,res,next)=>{
-    console.debug(req.session);
+    // console.debug(req.session);
     if(req.session?.userInfo){
-        res.redirect("/profile");
+        res.redirect("/profile?message=El usuario ya ha iniciado sesión");
     } else {
         next();
     }
 };
 
-export const checkRole = (roles)=>{ 
+export const checkRole = (roles)=>{  //roles = ["admin", "superadmin"]
     roles = ["admin", "superadmin"]
     return (req,res,next)=>{
         console.debug("req", req.user);

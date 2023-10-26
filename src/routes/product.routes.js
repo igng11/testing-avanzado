@@ -24,6 +24,8 @@ router.get("/", ProductsController.getProducts);
 // Obtiene un producto por su ID
 router.get("/:pid", ProductsController.getProductById);
 
+router.post("/", checkAuthenticated, checkRole(["admin", "superadmin","premium"]), ProductsController.createProduct);
+
 // Ruta PUT /api/products/:pid
 // Actualiza un producto por su ID
 // router.post("/", validateFields, ProductsController.setProductById);
@@ -31,6 +33,6 @@ router.post("/", checkAuthenticated, checkRole(["admin"]), ProductsController.se
   
 // Ruta DELETE /api/products/:pid
 // Elimina un producto por su ID
-  router.delete("/:pid",validateFields, checkAuthenticated, checkRole(["admin"]), ProductsController.deleteProductByID);
+  router.delete("/:pid",validateFields, checkAuthenticated, checkRole(["admin", "premium"]), ProductsController.deleteProduct);
 
 export { router as productsRouters }; //aca se exporta la ruta a app.js

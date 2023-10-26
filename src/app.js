@@ -102,9 +102,10 @@ app.get("/home", async (req, res) => {
   try {
   //traer la hoja de estilos
   const products = await productDao.get();
-  console.debug(products);
+  // console.debug(products);
   // Renderizar la vista "home.hbs" con los productos como datos
-  res.render("home", {products: products, user: req.session.userInfo});}
+  res.render("home", {products: products, user: req.session.userInfo});
+}
 catch (error) {
 res.render("error");
 }});
@@ -114,11 +115,12 @@ res.render("error");
 app.get("/get", async (req, res) => {
   try {
   //traer productos
-  console.debug("solicitando...")
+  // console.debug("solicitando...")
   const products = await productDao.get();
-  console.debug("solicitando...2")
+  // console.debug("solicitando...2")
   // Renderizar la vista "home.hbs" con los productos como datos
-  res.json(products);}
+  res.json(products);
+}
 catch (error) {
   console.debug("error ", error);
 res.render("error al obtener products");
@@ -133,7 +135,7 @@ app.use(express.urlencoded({extended:true}));
 //sockets
 let messages = [];
 io.on("connection",(socket)=>{
-  console.info("nuevo cliente conectado");
+  console.info("Nuevo cliente socket conectado");
   
   //capturamos el ingreso de un nuevo usuario
   socket.on("autenticated",(msg)=>{

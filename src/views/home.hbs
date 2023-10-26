@@ -71,12 +71,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   const cardContainer = document.getElementById('card-serum-container');
   
-  // Fetch desde MongoDB (usando Handlebars template)
-  fetch('http://localhost:8083/products')
+  // Fetch a MongoDB (usando Handlebars template)
+  fetch('http://localhost:8083/home')
     .then(response => response.json())
     .then(data => {
-      console.debug("products :", data);
-  
+      console.log("products :", data);
       // definir el template
       const source = `
         {{#each products}}

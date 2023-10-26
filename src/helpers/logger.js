@@ -12,11 +12,15 @@ const devLogger = winston.createLogger({
 });
 
 const prodLogger = winston.createLogger({
-    transports:[
-        new winston.transports.Console({level:"http"}),
-        new winston.transports.File({filename:"./logs/errors.log", level:"warn"})
+
+    transports: [
+      new winston.transports.Console({ level: "http" }), 
+      new winston.transports.File({ 
+        filename: "./logs/errors.log", 
+        level: "info" // Enviar sólo logs de nivel info o superior al archivo
+      }) 
     ]
-});
+   });
 
 //definir el logger dependiendo el ambiente
 export const addLogger = ()=>{

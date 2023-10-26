@@ -54,7 +54,11 @@ const productsSchema = new mongoose.Schema({
   logos:{
     type:[Number],
     require:true
-    }
+    },
+  owner:{
+    type:mongoose.Schema.ObjectId,
+    ref:"users"
+  }
 });
 
 //aplicacion de paginate al schema
