@@ -38,5 +38,17 @@ router.post("/forgot-password", SessionsController.forgotPassword);
 
 router.post("/reset-password", SessionsController.resetPassword);
 
+router.post("/sucess-signup", passport.authenticate("signupStrategy", {
+    failureRedirect:"/sessions/fail-signup"
+}), SessionsController.successSignup);
+
+router.get("/fail-signup", SessionsController.failSignup);
+
+router.post("/sucess-login", passport.authenticate("loginStrategy", {
+    failureRedirect:"/sessions/fail-login"
+}), SessionsController.successLogin);
+
+router.get("/fail-login", SessionsController.failLogin);
+
 
 export {router as sessionRouter};

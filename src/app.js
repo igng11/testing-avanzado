@@ -20,6 +20,8 @@ import { usersRouter } from "./routes/users.routes.js";
 import { initializePassport } from "./config/passportConfig.js"
 import { generateUser } from "./utils/helpers.js";
 import { addLogger } from "./helpers/logger.js";
+import { swaggerSpecs } from './config/swagger.config.js';
+import swaggerUI from "swagger-ui-express";
 // import { routerFS } from "./routes/product-fs.routes.js";
 // import FileStore from "session-file-store";
 
@@ -71,6 +73,9 @@ app.use("/users", usersRouter);
 app.use("/",pagesRouter);
 app.use("/",sessionRouter);
 // app.use("/fileSystem",routerFS);
+
+//endpoint para acceder a la documentacion de la api
+app.use("/docs",swaggerUI.serve,swaggerUI.setup(swaggerSpecs));
 
 //traer productos faker
 app.get("/mockingpoducts", (req,res)=>{

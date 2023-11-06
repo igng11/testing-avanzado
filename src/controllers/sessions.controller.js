@@ -159,4 +159,29 @@ export class SessionsController {
             res.send("No se pudo restablecer la contraseña, volver a intentarlo <a href='/forgot-password'>Restablecer contraseña</a>");
         }
     };
+
+    static redirectLogin = (req,res)=>{
+        res.redirect("/login");
+    };
+
+    static failSignup = (req,res)=>{
+        res.json({status:"error", message:"No se pudo registrar al usuario"});
+    };
+
+    static successSignup = (req,res)=>{
+        res.json({status:"success", message:"registro exitoso"});
+    };
+
+    static successLogin = (req,res)=>{
+        res.json({status:"success", message:"login exitoso"});
+    };
+    static renderProfile = (req,res)=>{
+        const user = req.user;
+        console.log("user", user);
+        res.render("profile",{user});
+    };
+
+    static failLogin = (req,res)=>{
+        res.json({status:"error", message:"No se pudo Loguear al usuario"});
+    };
 }

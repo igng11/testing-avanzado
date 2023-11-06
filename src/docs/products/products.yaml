@@ -1,0 +1,245 @@
+openapi: 3.0.0
+info:
+  title: Documentación de Rutas de Productos
+  version: 1.0.0
+
+paths:
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Lista de productos recuperada con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Product"
+        "500":
+          description: Hubo un error en el servidor
+
+    post:
+      summary: Crear un producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/CreateProduct"
+      responses:
+        "200":
+          description: El producto se creó de forma correcta
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateProductSuccess"
+        "500":
+          description: Hubo un error en el servidor
+
+  /api/products/{pid}:
+    get:
+      summary: Obtener un producto por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del producto
+      responses:
+        "200":
+          description: Producto recuperado con éxito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Hubo un error en el servidor
+
+    put:
+      summary: Actualizar un producto por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/UpdateProduct"
+      responses:
+        "200":
+          description: Producto actualizado de forma correcta
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Hubo un error en el servidor
+
+    delete:
+      summary: Eliminar un producto por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del producto
+      responses:
+        "200":
+          description: Producto eliminado de forma correcta
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Hubo un error en el servidor
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        num:
+          type: integer
+        p_name:
+          type: string
+        p_desc:
+          type: string
+        c_name:
+          type: string
+        c_desc:
+          type: string
+        price:
+          type: string
+        price_l:
+          type: string
+        specification1:
+          type: string
+        specification2:
+          type: string
+        specification3:
+          type: string
+        link:
+          type: string
+        img_1:
+          type: string
+        logos:
+          type: array
+          items:
+            type: integer
+        owner:
+          type: string
+      example:
+        num: 1
+        p_name: "Producto 1"
+        p_desc: "Descripción del Producto 1"
+        c_name: "Categoría 1"
+        c_desc: "Descripción de la Categoría 1"
+        price: "100.00"
+        price_l: "90.00"
+        specification1: "Especificación 1"
+        specification2: "Especificación 2"
+        specification3: "Especificación 3"
+        link: "https://example.com/product/1"
+        img_1: "https://example.com/product/1.jpg"
+        logos: [1, 2]
+        owner: "user123"
+
+    CreateProductSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+        data:
+          $ref: "#/components/schemas/Product"
+        message:
+          type: string
+      example:
+        status: "success"
+        data:
+          num: 1
+          p_name: "Producto 1"
+          p_desc: "Descripción del Producto 1"
+          c_name: "Categoría 1"
+          c_desc: "Descripción de la Categoría 1"
+          price: "100.00"
+          price_l: "90.00"
+          specification1: "Especificación 1"
+          specification2: "Especificación 2"
+          specification3: "Especificación 3"
+          link: "https://example.com/product/1"
+          img_1: "https://example.com/product/1.jpg"
+          logos: [1, 2]
+          owner: "user123"
+        message: "producto creado"
+
+  requestBodies:
+    CreateProduct:
+      type: object
+      properties:
+        num:
+          type: integer
+        p_name:
+          type: string
+        p_desc:
+          type: string
+        c_name:
+          type: string
+        c_desc:
+          type: string
+        price:
+          type: string
+        price_l:
+          type: string
+        specification1:
+          type: string
+        specification2:
+          type: string
+        specification3:
+          type: string
+        link:
+          type: string
+        img_1:
+          type: string
+        logos:
+          type: array
+          items:
+            type: integer
+      example:
+        num: 1
+        p_name: "Producto 1"
+        p_desc: "Descripción del Producto 1"
+        c_name: "Categoría 1"
+        c_desc: "Descripción de la Categoría 1"
+        price: "100.00"
+        price_l: "90.00"
+        specification1: "Especificación 1"
+        specification2: "Especificación 2"
+        specification3: "Especificación 3"
+        link: "https://example.com/product/1"
+        img_1: "https://example.com/product/1.jpg"
+        logos: [1, 2]

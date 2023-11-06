@@ -1,0 +1,68 @@
+openapi: 3.0.0
+info:
+  title: Documentación de Rutas de Sesiones
+  version: 1.0.0
+
+paths:
+  /sessions/login:
+    post:
+      summary: Ruta para loguear un usuario
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/LoginUser"
+      responses:
+        "200":
+          description: El usuario se logueó de forma exitosa
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginSuccess"
+        "500":
+          description: Hubo un error en el servidor
+
+  /sessions/signup:
+    post:
+      summary: Ruta para registrar un usuario
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/SignupUser"
+      responses:
+        "200":
+          description: El usuario se registró de forma exitosa
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignupSuccess"
+        "500":
+          description: Hubo un error en el servidor
+
+  /sessions/profile:
+    post:
+      summary: Ruta para ver el perfil de un usuario
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/ProfileUser"
+      responses:
+        "200":
+          description: Perfil de usuario recuperado con éxito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProfileSuccess"
+        "500":
+          description: Hubo un error en el servidor

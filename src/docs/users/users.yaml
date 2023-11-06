@@ -1,0 +1,170 @@
+openapi: 3.0.0
+info:
+  title: Documentación de Rutas de Usuarios
+  version: 1.0.0
+
+paths:
+  /api/users:
+    get:
+      summary: Obtener todos los usuarios
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Lista de usuarios recuperada con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+        "500":
+          description: Hubo un error en el servidor
+
+    post:
+      summary: Crear un usuario
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/CreateUser"
+      responses:
+        "200":
+          description: El usuario se creó de forma correcta
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateUserSuccess"
+        "500":
+          description: Hubo un error en el servidor
+
+  /api/users/{uid}:
+    get:
+      summary: Obtener un usuario por ID
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario
+      responses:
+        "200":
+          description: Usuario recuperado con éxito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: Usuario no encontrado
+        "500":
+          description: Hubo un error en el servidor
+
+  /api/users/premium/{uid}:
+    post:
+      summary: Cambiar el rol de un usuario
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario
+      responses:
+        "200":
+          description: Rol de usuario cambiado de forma correcta
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChangeUserRoleSuccess"
+        "403":
+          description: No tienes permisos para cambiar el rol del usuario
+        "404":
+          description: Usuario no encontrado
+        "500":
+          description: Hubo un error en el servidor
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        age:
+          type: integer
+        role:
+          type: string
+      example:
+        first_name: "John"
+        last_name: "Doe"
+        email: "johndoe@example.com"
+        age: 30
+        role: "user"
+
+    CreateUserSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+        data:
+          $ref: "#/components/schemas/User"
+        message:
+          type: string
+      example:
+        status: "success"
+        data:
+          first_name: "John"
+          last_name: "Doe"
+          email: "johndoe@example.com"
+          age: 30
+          role: "user"
+        message: "usuario creado"
+
+    ChangeUserRoleSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+      example:
+        status: "success"
+        message: "El nuevo rol del usuario es premium"
+
+  requestBodies:
+    CreateUser:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        age:
+          type: integer
+        role:
+          type: string
+      example:
+        first_name: "John"
+        last_name: "Doe"
+        email: "johndoe@example.com"
+        age: 30
+        role: "user"
